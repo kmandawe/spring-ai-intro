@@ -20,6 +20,9 @@ public class OpenAIServiceImpl implements OpenAIService {
   @Value("classpath:templates/get-capital-prompt.st")
   private Resource getCapitalPrompt;
 
+  @Value("classpath:templates/get-capital-with-info.st")
+  private Resource getCapitalPromptWithInfo;
+
   public OpenAIServiceImpl(ChatModel chatModel) {
     this.chatModel = chatModel;
   }
@@ -47,6 +50,15 @@ public class OpenAIServiceImpl implements OpenAIService {
   public Answer getCapital(GetCapitalRequest getCapitalRequest) {
     PromptTemplate promptTemplate =
         new PromptTemplate(getCapitalPrompt);
+    Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry()));
+    ChatResponse response = chatModel.call(prompt);
+    return new Answer(response.getResult().getOutput().getText());
+  }
+
+  @Override
+  public Answer getCapitalWithInfo(GetCapitalRequest getCapitalRequest) {
+    PromptTemplate promptTemplate =
+        new PromptTemplate(getCapitalPromptWithInfo);
     Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry()));
     ChatResponse response = chatModel.call(prompt);
     return new Answer(response.getResult().getOutput().getText());
