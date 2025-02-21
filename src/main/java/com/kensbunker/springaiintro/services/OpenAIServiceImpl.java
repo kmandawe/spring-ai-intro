@@ -1,5 +1,7 @@
 package com.kensbunker.springaiintro.services;
 
+import com.kensbunker.springaiintro.model.Answer;
+import com.kensbunker.springaiintro.model.Question;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -22,5 +24,15 @@ public class OpenAIServiceImpl implements OpenAIService {
 
     ChatResponse response = chatModel.call(prompt);
     return response.getResult().getOutput().getText();
+  }
+
+  @Override
+  public Answer getAnswer(Question question) {
+    System.out.println("I was called");
+    PromptTemplate promptTemplate = new PromptTemplate(question.question());
+    Prompt prompt = promptTemplate.create();
+
+    ChatResponse response = chatModel.call(prompt);
+    return new Answer(response.getResult().getOutput().getText());
   }
 }
