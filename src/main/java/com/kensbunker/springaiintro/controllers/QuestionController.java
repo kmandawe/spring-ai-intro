@@ -2,6 +2,7 @@ package com.kensbunker.springaiintro.controllers;
 
 import com.kensbunker.springaiintro.model.Answer;
 import com.kensbunker.springaiintro.model.GetCapitalRequest;
+import com.kensbunker.springaiintro.model.GetCapitalResponse;
 import com.kensbunker.springaiintro.model.Question;
 import com.kensbunker.springaiintro.services.OpenAIService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class QuestionController {
 
 
   @PostMapping("/capital")
-  public Answer askQuestion(@RequestBody GetCapitalRequest getCapitalRequest) {
+  public GetCapitalResponse askQuestion(@RequestBody GetCapitalRequest getCapitalRequest) {
     return openAIService.getCapital(getCapitalRequest);
   }
 
