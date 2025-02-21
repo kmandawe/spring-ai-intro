@@ -1,3 +1,5 @@
 package com.kensbunker.springaiintro.services;
 
-public interface OpenApiService {}
+public interface OpenAIService {
+  String getAnswer(String question);
+}
